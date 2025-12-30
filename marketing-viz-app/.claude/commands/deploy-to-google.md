@@ -2,6 +2,10 @@
 
 Deploy the GTM AI & Ops app to Google Cloud Storage.
 
+## Live URL
+
+**Website:** http://gtm-ai-ops.storage.googleapis.com/
+
 ## Instructions
 
 Execute these steps in order:
@@ -16,15 +20,27 @@ Execute these steps in order:
    cd /Users/drew.gilbert/Documents/gtm-eng/marketing-viz-app && gcloud storage cp -r out/* gs://gtm-ai-ops/
    ```
 
-3. **Report the deployment URL**
-   The site is available at: https://storage.googleapis.com/gtm-ai-ops/index.html
+3. **Verify deployment**
+   Open http://gtm-ai-ops.storage.googleapis.com/ in your browser.
 
 ## Configuration Reference
 
 - **GCP Project:** hg-ai-marketing-ops
 - **Storage Bucket:** gtm-ai-ops
 - **Region:** us-central1
-- **Base Path:** /gtm-ai-ops (configured in next.config.ts)
+- **Website Endpoint:** http://gtm-ai-ops.storage.googleapis.com/
+
+## URLs
+
+| Page | URL |
+|------|-----|
+| Home | http://gtm-ai-ops.storage.googleapis.com/ |
+| Scope | http://gtm-ai-ops.storage.googleapis.com/scope/ |
+| Job Description | http://gtm-ai-ops.storage.googleapis.com/job-description/ |
+| Workflows | http://gtm-ai-ops.storage.googleapis.com/workflows/ |
+| Collaboration | http://gtm-ai-ops.storage.googleapis.com/collaboration/ |
+| Prioritization | http://gtm-ai-ops.storage.googleapis.com/prioritization/ |
+| Escalations | http://gtm-ai-ops.storage.googleapis.com/escalations/ |
 
 ## Troubleshooting
 
@@ -34,4 +50,12 @@ gcloud auth login
 gcloud config set project hg-ai-marketing-ops
 ```
 
-If assets don't load (400 errors), verify `basePath` in next.config.ts matches the bucket name.
+## Note on URL Formats
+
+- **Website endpoint** (recommended): `http://gtm-ai-ops.storage.googleapis.com/`
+  - Supports navigation between pages
+  - Auto-serves index.html for directories with trailing slash
+  
+- **API endpoint** (direct file access): `https://storage.googleapis.com/gtm-ai-ops/path/index.html`
+  - Requires explicit `index.html` in URL
+  - Navigation links may not work correctly
