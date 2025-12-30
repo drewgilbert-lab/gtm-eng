@@ -4,7 +4,9 @@ Deploy the GTM AI & Ops app to Google Cloud Storage.
 
 ## Live URL
 
-**Website:** http://gtm-ai-ops.storage.googleapis.com/index.html
+**Website:** http://gtm-ai-ops.storage.googleapis.com/scope.html
+
+Note: Start with scope.html as the entry point (the homepage is blank).
 
 ## Instructions
 
@@ -21,7 +23,7 @@ Execute these steps in order:
    ```
 
 3. **Verify deployment**
-   Open http://gtm-ai-ops.storage.googleapis.com/index.html in your browser.
+   Open http://gtm-ai-ops.storage.googleapis.com/scope.html in your browser.
 
 ## Configuration Reference
 
@@ -36,7 +38,6 @@ All pages must be accessed with the `.html` extension:
 
 | Page | URL |
 |------|-----|
-| Home | http://gtm-ai-ops.storage.googleapis.com/index.html |
 | Scope | http://gtm-ai-ops.storage.googleapis.com/scope.html |
 | Job Description | http://gtm-ai-ops.storage.googleapis.com/job-description.html |
 | Workflows | http://gtm-ai-ops.storage.googleapis.com/workflows.html |
@@ -44,17 +45,40 @@ All pages must be accessed with the `.html` extension:
 | Prioritization | http://gtm-ai-ops.storage.googleapis.com/prioritization.html |
 | Escalations | http://gtm-ai-ops.storage.googleapis.com/escalations.html |
 
-## Important Notes
+## Important Technical Notes
 
-### URL Format
-- **GCS does NOT auto-serve directory index files**. Always use the full `.html` extension when accessing pages directly.
-- Navigation within the app uses `.html` extensions in the href attributes.
-- The app uses regular `<a>` tags (not Next.js `Link` components) to ensure proper navigation on GCS static hosting.
+### Why Navigation Uses onClick Handlers
 
-### Why This Configuration Works
-1. **Flat HTML files**: Next.js is configured without `trailingSlash`, generating files like `scope.html` instead of `scope/index.html`.
-2. **Direct file serving**: GCS serves the HTML files directly without needing directory index resolution.
-3. **Standard anchor tags**: The navigation uses plain HTML `<a>` tags to avoid client-side routing issues on static hosting.
+GCS static hosting does NOT auto-serve directory index files, so URLs must include the `.html` extension. However, Next.js client-side JavaScript (React hydration) intercepts anchor tag clicks and strips the `.html` extension.
+
+**Solution:** Navigation links use explicit `onClick` handlers that call `window.location.href` to force full page navigation:
+
+```tsx
+<a
+  href={item.href}
+  onClick={(e) => {
+    e.preventDefault();
+    window.location.href = item.href;
+  }}
+>
+  {item.label}
+</a>
+```
+
+This approach:
+1. Prevents React from intercepting the click (`e.preventDefault()`)
+2. Forces a full page navigation (`window.location.href`)
+3. Preserves the `.html` extension in the URL
+
+### Key Files
+
+- **Navigation URLs:** `src/data/navigation.ts` - All hrefs must include `.html` extension
+- **Header Component:** `src/components/layout/Header.tsx` - Uses onClick handlers for navigation
+- **Next.js Config:** `next.config.ts` - NO `trailingSlash` setting (generates flat HTML files)
+
+### Logo Link
+
+The logo "GTM AI & Ops" links to `/scope.html` (the first content page) since the homepage is blank.
 
 ## Troubleshooting
 
@@ -65,15 +89,15 @@ gcloud auth login
 gcloud config set project hg-ai-marketing-ops
 ```
 
-### Pages Not Loading
+### Pages Not Loading (XML Error)
 - Ensure you're accessing pages with the `.html` extension
 - Check that files were uploaded: `gcloud storage ls gs://gtm-ai-ops/`
-- Verify bucket permissions allow public read access
+- Try adding a cache-busting query parameter: `?v=1`
 
-### Navigation Not Working
-- The navigation links use `.html` extensions
-- Verify that the Header component uses plain `<a>` tags, not Next.js `Link` components
-- Check that `next.config.ts` does NOT have `trailingSlash: true`
+### Navigation Not Working After Deploy
+- Clear browser cache or use incognito mode
+- Verify that Header.tsx uses onClick handlers (not just href)
+- Check that navigation.ts has `.html` extensions in all hrefs
 
 ## Configuration Details
 
@@ -84,26 +108,35 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,        // Required for static export
   },
-  // NO trailingSlash setting - generates flat HTML files
+  // NO trailingSlash - generates flat HTML files like scope.html
 };
 ```
 
 ### navigation.ts
-Navigation items should use `.html` extensions:
 ```typescript
 export const mainNavigation: NavItem[] = [
   { label: 'Scope', href: '/scope.html' },
   { label: 'Job Description', href: '/job-description.html' },
-  // ...
+  { label: 'Workflows', href: '/workflows.html' },
+  { label: 'Collaboration', href: '/collaboration.html' },
+  { label: 'Prioritization', href: '/prioritization.html' },
+  { label: 'Escalations', href: '/escalations.html' },
 ];
 ```
 
-### Header.tsx
-The Header component should use plain `<a>` tags:
+### Header.tsx Navigation Pattern
 ```tsx
-<a href={item.href} className="...">
-  {item.label}
-</a>
+{navItems.map((item) => (
+  <a
+    key={item.href}
+    href={item.href}
+    onClick={(e) => {
+      e.preventDefault();
+      window.location.href = item.href;
+    }}
+    className={...}
+  >
+    {item.label}
+  </a>
+))}
 ```
-
-This ensures proper navigation without client-side routing interference on GCS static hosting.

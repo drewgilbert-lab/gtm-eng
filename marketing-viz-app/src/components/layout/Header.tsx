@@ -17,7 +17,14 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Title */}
-          <a href="/index.html" className="flex items-center gap-2 font-semibold text-lg shrink-0">
+          <a 
+            href="/scope.html" 
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = '/scope.html';
+            }}
+            className="flex items-center gap-2 font-semibold text-lg shrink-0"
+          >
             <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center text-white text-sm font-bold">
               GO
             </div>
@@ -30,6 +37,10 @@ export function Header() {
               <a
                 key={item.href}
                 href={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = item.href;
+                }}
                 className={cn(
                   "px-3 py-2 rounded-md text-sm font-medium transition-colors",
                   pathname === item.href
@@ -63,7 +74,11 @@ export function Header() {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    window.location.href = item.href;
+                  }}
                   className={cn(
                     "px-3 py-2 rounded-md text-sm font-medium transition-colors",
                     pathname === item.href
