@@ -1,19 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { mainNavigation } from '@/data/navigation';
 
-const navItems = [
-  { label: 'Scope', href: '/scope' },
-  { label: 'Job Description', href: '/job-description' },
-  { label: 'Workflows', href: '/workflows' },
-  { label: 'Collaboration', href: '/collaboration' },
-  { label: 'Prioritization', href: '/prioritization' },
-  { label: 'Escalations', href: '/escalations' },
-];
+const navItems = mainNavigation;
 
 export function Header() {
   const pathname = usePathname();
@@ -24,17 +17,17 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Title */}
-          <Link href="/" className="flex items-center gap-2 font-semibold text-lg shrink-0">
+          <a href="/index.html" className="flex items-center gap-2 font-semibold text-lg shrink-0">
             <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center text-white text-sm font-bold">
               GO
             </div>
             <span className="hidden sm:block">GTM AI &amp; Ops</span>
-          </Link>
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1 ml-8">
             {navItems.map((item) => (
-              <Link
+              <a
                 key={item.href}
                 href={item.href}
                 className={cn(
@@ -45,7 +38,7 @@ export function Header() {
                 )}
               >
                 {item.label}
-              </Link>
+              </a>
             ))}
           </nav>
 
@@ -67,7 +60,7 @@ export function Header() {
           <div className="md:hidden border-t border-[var(--border)] py-4">
             <nav className="flex flex-col gap-1">
               {navItems.map((item) => (
-                <Link
+                <a
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
@@ -79,7 +72,7 @@ export function Header() {
                   )}
                 >
                   {item.label}
-                </Link>
+                </a>
               ))}
             </nav>
           </div>
