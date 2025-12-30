@@ -178,15 +178,20 @@ export default function WorkflowsPage() {
           {/* Framework View */}
           {activeTab === 'framework' && (
             <div className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-[var(--background-secondary)] rounded-xl p-6 border border-[var(--border)] max-w-3xl mx-auto">
+                <p className="text-[var(--foreground-secondary)] leading-relaxed">
+                  This is the standard structure every workflow should have. Each workflow is described using the same set of dimensions, regardless of category. This framework ensures clarity on what each workflow does, when it runs, what it requires, and how it creates value—while maintaining explicit boundaries on what decisions it informs versus what it owns.
+                </p>
+              </div>
+              <div className="space-y-3 max-w-3xl mx-auto">
                 {workflowDimensions.map((dim, index) => (
                   <div key={dim.id} className="relative">
-                    <div className="bg-[var(--background-secondary)] rounded-xl border border-[var(--border)] p-5 h-full hover:border-[var(--primary)] transition-colors">
+                    <div className="bg-[var(--background-secondary)] rounded-xl border border-[var(--border)] p-5 hover:border-[var(--primary)] transition-colors">
                       <div className="flex items-start gap-4">
                         <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${dim.color}15` }}>
                           <dim.icon className="w-6 h-6" style={{ color: dim.color }} />
                         </div>
-                        <div className="space-y-1">
+                        <div className="space-y-1 flex-1">
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: `${dim.color}20`, color: dim.color }}>{dim.id}</span>
                             <h3 className="font-semibold text-[var(--foreground)]">{dim.title}</h3>
@@ -196,21 +201,8 @@ export default function WorkflowsPage() {
                         </div>
                       </div>
                     </div>
-                    {index < workflowDimensions.length - 1 && index % 3 !== 2 && (
-                      <ChevronRight className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 text-[var(--foreground-tertiary)]" />
-                    )}
                   </div>
                 ))}
-              </div>
-              <div className="bg-gradient-to-r from-[var(--primary)]/10 via-transparent to-[var(--accent)]/10 rounded-xl p-6 border border-[var(--border)]">
-                <div className="flex flex-wrap items-center justify-center gap-2 text-sm">
-                  {workflowDimensions.map((dim, index) => (
-                    <div key={dim.id} className="flex items-center gap-2">
-                      <span className="px-2 py-1 rounded font-medium" style={{ backgroundColor: `${dim.color}20`, color: dim.color }}>{dim.title}</span>
-                      {index < workflowDimensions.length - 1 && <ArrowRight className="w-4 h-4 text-[var(--foreground-tertiary)]" />}
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           )}

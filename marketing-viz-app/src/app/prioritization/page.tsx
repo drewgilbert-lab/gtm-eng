@@ -120,7 +120,7 @@ const factors = [
     subtitle: 'Guardrail',
     icon: Shield,
     color: '#8b5cf6',
-    question: 'If this workflow fails, am I implicitly accountable for outcomes I don\'t own?',
+    question: 'If this workflow fails, does it create implicit accountability for outcomes outside the role\'s control?',
     description: 'Outcome exposure is a safety valve. Workflows with high exposure create accountability risk for outcomes that the role does not control. High exposure workflows should be deprioritized or have scope explicitly negotiated.',
     importance: 'guardrail',
     example: {

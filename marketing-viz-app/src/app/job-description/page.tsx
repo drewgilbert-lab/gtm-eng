@@ -271,7 +271,7 @@ export default function JobDescriptionPage() {
                 </div>
               </div>
               <p className="text-[var(--foreground-secondary)] mt-4 italic">
-                The role operates through influence, standards, and systems rather than direct control over strategy.
+                Align Marketing Ops to be consistent with the Revenue Architecture Bow-Tie model being rolled out by RevOps in Q1.
               </p>
             </div>
           </motion.section>
