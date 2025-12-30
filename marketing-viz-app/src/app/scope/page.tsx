@@ -138,7 +138,7 @@ export default function ScopePage() {
               Role Scope
             </div>
             <h1 className="text-4xl font-bold text-[var(--foreground)] max-w-3xl mx-auto leading-tight">
-              Owning How Work Gets Done Across Marketing's GTM Execution Layer
+              How Work Gets Done Across Marketing's GTM Execution Layer
             </h1>
             <p className="text-xl text-[var(--foreground-secondary)] max-w-2xl mx-auto">
               Systems, workflows, automation, measurement, and the operating cadence that turns strategy into repeatable execution.
